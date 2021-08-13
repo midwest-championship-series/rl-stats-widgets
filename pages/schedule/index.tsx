@@ -1,10 +1,4 @@
-import React from "react";
-
-import SchedulePage, { ScheduleProps, ScheduleState } from './schedule'
-
-function delay(ms: number) {
-  return new Promise( resolve => setTimeout(resolve, ms) );
-}
+import React from 'react'
 
 export async function getServerSideProps(context: any) {
   const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
@@ -21,11 +15,8 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-export default class Schedule extends React.Component<ScheduleProps, ScheduleState> {
-  
-  constructor(props: ScheduleProps) {
-    super(props)
-  }
-
-  render = SchedulePage
+export default function Schedule(props: any) {
+  return (
+    <p>Schedule</p>
+  )
 }

@@ -1,15 +1,12 @@
-import React from "react";
+import React from 'react'
+import Image from 'next/image'
 
-import StandingsPage, { StandingsProps, StandingsState } from './standings'
-
-function delay(ms: number) {
-  return new Promise( resolve => setTimeout(resolve, ms) );
-}
+import { getLeaderboard } from '../../services/stats'
+import style from './standings.module.scss'
 
 export async function getServerSideProps(context: any) {
   const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
   const auth = headers["Authorization"] ?? ""
-
   // Before making api calls, check auth here so we don't make any unnecessary requests
 
   // Make api calls here using query params
@@ -17,30 +14,31 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       Authorization: auth,
-      leaderboard: []
+      leaderboard: getLeaderboard()
     }
   }
 }
 
-export default class Standings extends React.Component<StandingsProps, StandingsState> {
-  
-  constructor(props: StandingsProps) {
-    super(props)
-    console.log(props)
-    this.state = {
-      leaderboard: props.leaderboard
-    }
-  }
-
-  // Slap the component onto window so we can access it without the need for socketio
-  componentDidMount() {
-    // @ts-ignore
-    window.standingsWidget = this
-  }
-
-  nextPage() {
-    console.log('next page')
-  }
-
-  render = StandingsPage
+export default function Standings(props: any) {
+  return (
+    <div className={style.standings}>
+      <p>STANDINGS</p>
+      <div>
+        {props.leaderboard.map((val: any, index: number) => {
+          return (
+            <div key={index} className={style.team} style={{ backgroundColor: val.color, color: val.secondary }}>
+              <Image className={style.logo} src={val.avatar} alt="" width={150} height={150} objectFit="cover" />
+              <div className={style.flexCol + " " + style.teamname}>
+                <p>{val.city}</p>
+                <p>{val.name}</p>
+              </div>
+              <div className={style.record}>
+                <p>{val.wins + " - " + val.losses}</p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
 }

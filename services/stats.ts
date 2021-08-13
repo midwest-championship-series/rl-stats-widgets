@@ -1,14 +1,94 @@
 export const getLeaderboard = () => {
   return [
-    { team_name: "t1" },
-    { team_name: "t2" },
-    { team_name: "t3" },
-    { team_name: "t4" },
-    { team_name: "t5" },
-    { team_name: "t6" },
-    { team_name: "t7" },
-    { team_name: "t8" },
-    { team_name: "t9" },
-    { team_name: "t10" },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660356130930829/mncs_minneapolismiracles.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660356130930829/mncs_minneapolismiracles.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660356130930829/mncs_minneapolismiracles.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660356130930829/mncs_minneapolismiracles.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660356130930829/mncs_minneapolismiracles.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660360946122802/mncs_minnetonkabarons.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660329195241522/mncs_burnsvilleinferno.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660367682043974/mncs_rochesterrhythm.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660376507121794/mncs_stpaulsenators.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
+    { 
+      city: "Minneapolis", 
+      avatar: "https://cdn.discordapp.com/attachments/692994579305332806/744660336010985492/mncs_duluthsuperiors.png", 
+      name: "Miracles" ,
+      wins: 3,
+      losses: 1,
+      color: "#8015E8",
+      secondary: "#fff"
+    },
   ]
 }
