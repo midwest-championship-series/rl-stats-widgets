@@ -1,14 +1,7 @@
-.schedule :global {
-  animation: 120s hex-scroll infinite linear;
-}
 .schedule {
   width: 100%;
   height: 100%;
-  min-height: 100vh;
-  transition: background 2s ease;
   background: #fff;
- // background: url("./hexagon.svg"), 
-  //    linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(48, 98, 136) 20%, rgb(2 75 132 / 62%) 50%, rgb(10 131 224 / 40%) 90%, rgb(148, 209, 255, 0.6) 100%, #ffffff 100%);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -30,8 +23,8 @@
 }
 
 .allWeeks {
-  height: 100vh;
-  width: 200px;
+  height: 100%;
+  width: 120px;
   margin-left: 50px;
   display: flex;
   flex-direction: column;
@@ -44,25 +37,34 @@
     border-left: 1px solid #333;
     margin: 0;
     padding: 10px;
+    transition: font-size 0.1s ease,
+      background-color 0.1s ease;
+
+    &:hover {
+      font-size: 18px;
+      background-color: #ccc;
+    }
   }
 }
 
 .weeks {
-  margin-left: 200px;
+  width: 100%;
+
+  &[data-controls="true"] {
+    margin-left: 200px;
+  }
 }
 
 .week {
-  width: 100%;
-  min-width: 600px;
-
   .weekHeader {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: black;
+    background-color: rgb(108, 172, 220);
     color: white;
-    height: 70px;
+    height: 90px;
     font-family: 'Montserrat';
+    font-weight: bolder;
 
     & > div {
       display: flex;
@@ -80,6 +82,52 @@
   }
 }
 
-.weekMatches {
-  
+.match {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  & > p {
+    color: black;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 28px;
+    background-color: #ccc;
+
+    &:first-child {
+      margin-right: auto;
+    }
+
+    &:last-child {
+      margin-left: auto;
+    }
+
+    &[data-status="win"] {
+      background-color: rgb(9, 173, 50)
+    }
+
+    &[data-status="loss"] {
+      background-color: rgb(223, 86, 52);
+    }
+  }
+
+  & > div {
+    width: 800px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 60px;
+    flex-direction: row;
+  }
+  &:nth-child(n) {
+    background-color: #fff;
+    color: black;
+  }
+  &:nth-child(2n) {
+    background-color: #ccc;
+    color: black;
+  }
 }

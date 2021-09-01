@@ -1,33 +1,96 @@
-import React, { useState } from 'react'
-import { getLeague } from '../../services/stats'
+import React from 'react'
+import Image from 'next/image'
+import { findLeague } from '../../services/stats'
 import style from './schedule.module.scss'
 
 export async function getServerSideProps(context: any) {
   const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
   const auth = headers["Authorization"] ?? ""
 
-  const league = context.query.league ?? "5ec9359b8c0dd900074686d3"
+  const league = context.query.league ?? "mncs"
 
   return {
     props: {
-      league: await getLeague(league)
+      league: await findLeague(league, {
+        populate: [
+          "current_season.matches",
+          "current_season.matches.teams",
+          "current_season.matches.games"  
+        ]
+      }),
+      controls: context.query.controls ?? "false"
     }
   }
 }
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+]
+
+// thanks stackoverflow
+function getOrdinalNum(n: number) {
+  return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
+}
+
+export function getDay(date: Date): string {
+  return `${months[date.getMonth()-1].substr(0, 3).toUpperCase()} ${getOrdinalNum(date.getDate())}`
+}
+
+export function getTime(date: Date): string {
+  return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+
+// [0]: left series
+// [1]: right series
+export function getSeriesScore(match: any): number[] {
+  if(match.games.length === 0) {
+    return [0, 0]
+  }
+  
+  const winner = match.winning_team_id
+  const series = [match.games.filter((x: any) => x.winning_team_id === winner).length, match.games.filter((x: any) => x.winning_team_id !== winner).length]
+
+  if(match.teams[0]._id !== winner) {
+    return series.reverse()
+  }
+  return series
+}
+
 export function Week(props: any) {
   return (
-    <div className={style.week}>
+    <div id={`week-${props.week}`} className={style.week}>
       <div className={style.weekHeader}>
-        <div>8/14</div>
+        <div></div>
         <div>Week #{props.week}</div>
         <div></div>
       </div>
       <div className={style.weekMatches}>
         {props.league.current_season.matches.filter((x: any) => x.week === props.week)
           .map((value: any, index: number) => {
+            const series = getSeriesScore(value)
             return (
-              <p key={`week-${props.week}-match-${value._id}`}>Match Date: {value.scheduled_datetime}</p>
+              <div className={style.match} key={`week-${props.week}-match-${value._id}`}>
+                <p data-status={series[0] > series[1] ? "win" : series[0] < series[1] ? "loss" : "unplayed"}>{series[0]}</p>
+                <div>
+                  <p>{getDay(new Date(value.scheduled_datetime))}</p>
+                  <Image className={style.logo} src={value.teams[0].avatar} alt="" width={60} height={60} objectFit="cover" />
+                  <p style={{ width: "350px", textAlign: "center" }}>{`${value.teams[0].name} @ ${value.teams[1].name}`}</p>
+                  <Image className={style.logo} src={value.teams[1].avatar} alt="" width={60} height={60} objectFit="cover" />
+                  <p>{getTime(new Date(value.scheduled_datetime))}</p>
+                </div>
+                <p data-status={series[1] > series[0] ? "win" : series[1] < series[0] ? "loss" : "unplayed"}>{series[1]}</p>
+              </div>
             )
           })}
       </div>
@@ -36,7 +99,6 @@ export function Week(props: any) {
 }
 
 export default function Schedule(props: any) {
-  console.log(props.league)
   const tempWeeks = props.league.current_season.matches.map((match: any) => {
     return match.week
   })
@@ -47,16 +109,20 @@ export default function Schedule(props: any) {
   })
   return (
     <div className={style.schedule}>
-      <div className={style.allWeeks}>
-        {
-          weeks.map((value: any, index: number) => {
-            return (
-              <p key={`sideweek-${value}`}>Week #{value}</p>
-            )
-          })
-        }
-      </div>
-      <div className={style.weeks}>
+      {
+        props.controls === "true" ?
+          <div className={style.allWeeks}>
+            {
+              weeks.map((value: any, index: number) => {
+                return (
+                  <p onClick={() => document.getElementById(`week-${value}`)?.scrollIntoView({ behavior: 'smooth' })} key={`sideweek-${value}`}>Week #{value}</p>
+                )
+              })
+            }
+          </div>
+        : null
+      }
+      <div data-controls={props.controls} className={style.weeks}>
         {weeks.map((value: any, index: number) => {
           return (
             <Week key={`week-${index}`} week={value} league={props.league} />
