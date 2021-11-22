@@ -6,7 +6,7 @@ import style from './standings.module.scss'
 
 export async function getServerSideProps(context: any) {
   const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
-  const auth = headers["Authorization"] ?? ""
+  //const auth = headers["Authorization"] ?? ""
   // check auth?
 
   const league = context.query.league ?? "mncs"
