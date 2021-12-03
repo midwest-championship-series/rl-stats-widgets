@@ -4,7 +4,7 @@ import { findLeague } from '../../services/stats'
 import style from './schedule.module.scss'
 
 export async function getServerSideProps(context: any) {
-  const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
+  //const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
   //const auth = headers["Authorization"] ?? ""
 
   const league = context.query.league ?? "mncs"
@@ -44,11 +44,15 @@ function getOrdinalNum(n: number) {
 }
 
 export function getDay(date: Date): string {
-  return `${months[date.getMonth()-1].substr(0, 3).toUpperCase()} ${getOrdinalNum(date.getDate())}`
+  if(date.getMonth())
+    return `${months[date.getMonth()-1].substr(0, 3).toUpperCase()} ${getOrdinalNum(date.getDate())}`
+  return 'NULL'
 }
 
 export function getTime(date: Date): string {
-  return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  if(date.getMonth())
+    return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  return 'NULL'
 }
 
 // [0]: left series
