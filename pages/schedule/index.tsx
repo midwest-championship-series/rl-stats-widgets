@@ -2,12 +2,17 @@ import React from 'react'
 import Image from 'next/image'
 import { findLeague } from '../../services/stats'
 import style from './schedule.module.scss'
+import day from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+day.extend(utc)
+day.extend(timezone)
 
 export async function getServerSideProps(context: any) {
   //const headers = context.req[Object.getOwnPropertySymbols(context.req).find((s) => { return String(s) === "Symbol(kHeaders)"}) ?? ""]
   //const auth = headers["Authorization"] ?? ""
 
-  const league = context.query.league ?? "mncs"
+  const league = context.query.league
 
   return {
     props: {
@@ -83,15 +88,17 @@ export function Week(props: any) {
         {props.league.current_season.matches.filter((x: any) => x.week === props.week)
           .map((value: any, index: number) => {
             const series = getSeriesScore(value)
+            const leagueTz = props.league.default_timezone || 'America/New_York'
+            const datetime = day(value.scheduled_datetime).tz(leagueTz)
             return (
               <div className={style.match} key={`week-${props.week}-match-${value._id}`}>
                 <p data-status={series[0] > series[1] ? "win" : series[0] < series[1] ? "loss" : "unplayed"}>{series[0]}</p>
                 <div>
-                  <p>{getDay(new Date(value.scheduled_datetime))}</p>
+                  <p>{datetime.format('MMM D')}</p>
                   <Image className={style.logo} src={value.teams[0].avatar} alt="" width={60} height={60} objectFit="cover" />
                   <p style={{ width: "350px", textAlign: "center" }}>{`${value.teams[0].name} @ ${value.teams[1].name}`}</p>
                   <Image className={style.logo} src={value.teams[1].avatar} alt="" width={60} height={60} objectFit="cover" />
-                  <p>{getTime(new Date(value.scheduled_datetime))}</p>
+                  <p>{datetime.format('hh:mm A')}</p>
                 </div>
                 <p data-status={series[1] > series[0] ? "win" : series[1] < series[0] ? "loss" : "unplayed"}>{series[1]}</p>
               </div>
