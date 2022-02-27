@@ -3,5 +3,8 @@ name: rl-widgets
 rl-widgets-serverless:
   component: '@sls-next/serverless-component@3.6.0'
   inputs:
+    cloudfront:
+      defaults:
+        maxTTL: 100
     memory: 1024
     bucketName: rl-widgets-prod
