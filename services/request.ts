@@ -36,8 +36,9 @@ export const request = (inputOptions: EdjiRequestOptions) => {
             new RequestError({
               message:
                 (err && err.message) ||
-                `error making ${options.method} request to ${options.url} failed with status code ${res &&
-                  res.statusCode}`,
+                `error making ${options.method} request to ${options.url} failed with status code ${
+                  res && res.statusCode
+                }`,
               url: options.url.toString(),
               method: options.method,
               body,
@@ -47,8 +48,11 @@ export const request = (inputOptions: EdjiRequestOptions) => {
           )
         }
       })
-    }).catch(err => {
-      if ((options.retries && retryCount >= options.retries) || (options.retryOnStatusCodes && !options.retryOnStatusCodes.includes(err.statusCode))) {
+    }).catch((err) => {
+      if (
+        (options.retries && retryCount >= options.retries) ||
+        (options.retryOnStatusCodes && !options.retryOnStatusCodes.includes(err.statusCode))
+      ) {
         if (err.body && err.body.message) {
           err.message = err.body.message
         }

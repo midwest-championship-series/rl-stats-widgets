@@ -17,60 +17,27 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       league: await findLeague(league, {
-        populate: [
-          "current_season.matches",
-          "current_season.matches.teams",
-          "current_season.matches.games"  
-        ]
+        populate: ['current_season.matches', 'current_season.matches.teams', 'current_season.matches.games'],
       }),
-      controls: context.query.controls ?? "false"
-    }
+      controls: context.query.controls ?? 'false',
+    },
   }
-}
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-]
-
-// thanks stackoverflow
-function getOrdinalNum(n: number) {
-  return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
-}
-
-export function getDay(date: Date): string {
-  if(date.getMonth())
-    return `${months[date.getMonth()-1].substr(0, 3).toUpperCase()} ${getOrdinalNum(date.getDate())}`
-  return 'NULL'
-}
-
-export function getTime(date: Date): string {
-  if(date.getMonth())
-    return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-  return 'NULL'
 }
 
 // [0]: left series
 // [1]: right series
 export function getSeriesScore(match: any): number[] {
-  if(match.games.length === 0) {
+  if (match.games.length === 0) {
     return [0, 0]
   }
-  
-  const winner = match.winning_team_id
-  const series = [match.games.filter((x: any) => x.winning_team_id === winner).length, match.games.filter((x: any) => x.winning_team_id !== winner).length]
 
-  if(match.teams[0]._id !== winner) {
+  const winner = match.winning_team_id
+  const series = [
+    match.games.filter((x: any) => x.winning_team_id === winner).length,
+    match.games.filter((x: any) => x.winning_team_id !== winner).length,
+  ]
+
+  if (match.teams[0]._id !== winner) {
     return series.reverse()
   }
   return series
@@ -85,22 +52,43 @@ export function Week(props: any) {
         <div></div>
       </div>
       <div className={style.weekMatches}>
-        {props.league.current_season.matches.filter((x: any) => x.week === props.week)
+        {props.league.current_season.matches
+          .filter((x: any) => x.week === props.week)
           .map((value: any, index: number) => {
             const series = getSeriesScore(value)
             const leagueTz = props.league.default_timezone || 'America/New_York'
             const datetime = day(value.scheduled_datetime).tz(leagueTz)
             return (
               <div className={style.match} key={`week-${props.week}-match-${value._id}`}>
-                <p data-status={series[0] > series[1] ? "win" : series[0] < series[1] ? "loss" : "unplayed"}>{series[0]}</p>
+                <p data-status={series[0] > series[1] ? 'win' : series[0] < series[1] ? 'loss' : 'unplayed'}>
+                  {series[0]}
+                </p>
                 <div>
                   <p>{datetime.format('MMM D')}</p>
-                  <Image className={style.logo} src={value.teams[0].avatar} alt="" width={60} height={60} objectFit="cover" />
-                  <p style={{ width: "350px", textAlign: "center" }}>{`${value.teams[0].name} @ ${value.teams[1].name}`}</p>
-                  <Image className={style.logo} src={value.teams[1].avatar} alt="" width={60} height={60} objectFit="cover" />
+                  <Image
+                    className={style.logo}
+                    src={value.teams[0].avatar}
+                    alt=""
+                    width={60}
+                    height={60}
+                    objectFit="cover"
+                  />
+                  <p
+                    style={{ width: '350px', textAlign: 'center' }}
+                  >{`${value.teams[0].name} @ ${value.teams[1].name}`}</p>
+                  <Image
+                    className={style.logo}
+                    src={value.teams[1].avatar}
+                    alt=""
+                    width={60}
+                    height={60}
+                    objectFit="cover"
+                  />
                   <p>{datetime.format('hh:mm A')}</p>
                 </div>
-                <p data-status={series[1] > series[0] ? "win" : series[1] < series[0] ? "loss" : "unplayed"}>{series[1]}</p>
+                <p data-status={series[1] > series[0] ? 'win' : series[1] < series[0] ? 'loss' : 'unplayed'}>
+                  {series[1]}
+                </p>
               </div>
             )
           })}
@@ -115,29 +103,27 @@ export default function Schedule(props: any) {
   })
   const weeks: any[] = []
   tempWeeks.forEach((val: any) => {
-    if(!weeks.includes(val))
-      weeks.push(val)
+    if (!weeks.includes(val)) weeks.push(val)
   })
   return (
     <div className={style.schedule}>
-      {
-        props.controls === "true" ?
-          <div className={style.allWeeks}>
-            {
-              weeks.map((value: any, index: number) => {
-                return (
-                  <p onClick={() => document.getElementById(`week-${value}`)?.scrollIntoView({ behavior: 'smooth' })} key={`sideweek-${value}`}>Week #{value}</p>
-                )
-              })
-            }
-          </div>
-        : null
-      }
+      {props.controls === 'true' ? (
+        <div className={style.allWeeks}>
+          {weeks.map((value: any, index: number) => {
+            return (
+              <p
+                onClick={() => document.getElementById(`week-${value}`)?.scrollIntoView({ behavior: 'smooth' })}
+                key={`sideweek-${value}`}
+              >
+                Week #{value}
+              </p>
+            )
+          })}
+        </div>
+      ) : null}
       <div data-controls={props.controls} className={style.weeks}>
         {weeks.map((value: any, index: number) => {
-          return (
-            <Week key={`week-${index}`} week={value} league={props.league} />
-          );
+          return <Week key={`week-${index}`} week={value} league={props.league} />
         })}
       </div>
     </div>

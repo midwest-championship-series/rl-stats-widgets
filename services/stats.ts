@@ -1,5 +1,5 @@
-require('dotenv').config();
-import request from './request';
+require('dotenv').config()
+import request from './request'
 
 const get = (resource: string, query: any = {}) => {
   let url = [process.env.RL_STATS_URL, 'v2', resource].join('/')
@@ -59,10 +59,6 @@ export const findLeague = async (name: string, query?: any) => {
 
 export const getLeague = (league_id: string) => {
   return get(`leagues/${league_id}`, {
-    populate: [
-      "current_season.matches",
-      "current_season.matches.teams",
-      "current_season.matches.games"  
-    ]
+    populate: ['current_season.matches', 'current_season.matches.teams', 'current_season.matches.games'],
   })
 }

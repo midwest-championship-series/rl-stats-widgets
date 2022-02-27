@@ -37,8 +37,7 @@
     border-left: 1px solid #333;
     margin: 0;
     padding: 10px;
-    transition: font-size 0.1s ease,
-      background-color 0.1s ease;
+    transition: font-size 0.1s ease, background-color 0.1s ease;
 
     &:hover {
       font-size: 18px;
@@ -50,7 +49,7 @@
 .weeks {
   width: 100%;
 
-  &[data-controls="true"] {
+  &[data-controls='true'] {
     margin-left: 200px;
   }
 }
@@ -105,11 +104,11 @@
       margin-left: auto;
     }
 
-    &[data-status="win"] {
-      background-color: rgb(9, 173, 50)
+    &[data-status='win'] {
+      background-color: rgb(9, 173, 50);
     }
 
-    &[data-status="loss"] {
+    &[data-status='loss'] {
       background-color: rgb(223, 86, 52);
     }
   }
