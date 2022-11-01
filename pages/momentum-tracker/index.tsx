@@ -1,18 +1,19 @@
 import React from 'react'
 import Image from 'next/image'
 import style from './momentum-tracker.module.scss'
-import { get } from '../../services/stats'
-// import { getCharges } from '../../services/stripe'
+import { getMomentum } from '../../services/stripe'
 
-// export async function getServerSideProper(context: any) {
-//   await get('leagues')
-//   return {
-//     props: {},
-//   }
-// }
+export async function getStaticProps(context: any) {
+  const momentum = await getMomentum()
+  return {
+    props: {
+      momentum,
+    },
+  }
+}
 
 export default function MomentumTracker(props: any) {
-  const currentMomentum = 830
+  const currentMomentum = props.momentum + 830
   const goals = [
     {
       requirement: 15000,
@@ -23,7 +24,7 @@ export default function MomentumTracker(props: any) {
       requirement: 25000,
       title: 'Content',
       description:
-        "When Shift gets to 25,000 Momentum, we will get a consistent Newsletter, Clips of the Week for EVERY league, a post-LAN montage, and will announce the Summer'23 LAN venue.",
+        "When Shift gets to 25,000 Momentum, we will get a consistent Newsletter, Clips of the Week for EVERY league, a post-LAN montage, and will lock in the Summer'23 LAN venue.",
     },
   ]
   return (
@@ -48,7 +49,7 @@ export default function MomentumTracker(props: any) {
         {Tracker(currentMomentum, goals)}
         <div className={style.row}>
           <h2>MNCS Momentum</h2>
-          <p>We currently have {3000} of the 15,000 momentum needed for LAN.</p>
+          <p>We currently have {currentMomentum} of the 15,000 momentum needed for LAN.</p>
         </div>
         {goals.map((goal) => {
           return (

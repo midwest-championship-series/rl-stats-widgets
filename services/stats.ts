@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv').config()
 import request from './request'
 
 const get = (resource: string, query: any = {}) => {
