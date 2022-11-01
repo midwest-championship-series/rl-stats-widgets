@@ -22,25 +22,28 @@ export default function MomentumTracker(props: any) {
           specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
           remaining essentially unchanged.
         </p>
-        {Tracker()}
+        {Tracker(3000)}
       </div>
     </div>
   )
 }
 
-function Tracker() {
-  const currentMomentum = 30000
+function Tracker(currentMomentum: number) {
+  const maxMomentum = 30000
+  const getBarPosition = (momentum: number) => {
+    return (momentum / maxMomentum) * 100
+  }
+  const toPercent = (num: number) => `${num}%`
   const marker1Goal = 15000
   const marker2Goal = 25000
-  const maxMomentum = 30000
   const progressStatus = {
-    width: `${Math.round((currentMomentum / maxMomentum) * 100)}%`,
+    width: toPercent(getBarPosition(currentMomentum)),
   }
   const marker1 = {
-    left: `${35}%`,
+    left: toPercent(getBarPosition(marker1Goal) - 3.2),
   }
   const marker2 = {
-    left: `${75}%`,
+    left: toPercent(getBarPosition(marker2Goal) - 3.2),
   }
   return (
     <div className={style.trackerBody}>
@@ -54,7 +57,14 @@ function Tracker() {
         <div className={`${style.progressBar} ${style.progressTicker}`} style={progressStatus}>
           <div className={`${style.progressTickerText}`}>{currentMomentum} Momentum</div>
         </div>
-        <div className={`${style.progressBar} ${style.progressTicker}`}></div>
+        <div
+          className={`${style.progressBar} ${style.progressTicker}`}
+          style={{ width: toPercent(getBarPosition(marker1Goal)) }}
+        ></div>
+        <div
+          className={`${style.progressBar} ${style.progressTicker}`}
+          style={{ width: toPercent(getBarPosition(marker2Goal)) }}
+        ></div>
       </div>
     </div>
   )

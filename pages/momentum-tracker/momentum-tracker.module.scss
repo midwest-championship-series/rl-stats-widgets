@@ -41,7 +41,7 @@ $lightBlue: #6CADDF;
   background-color: $midBlue;
   height: 200px;
   position: relative;
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 0 1rem 1rem;
 }
 
 .progressWrap {
@@ -55,8 +55,7 @@ $lightBlue: #6CADDF;
   background-color: black;
   height: 1.4rem;
   position: absolute;
-  top: 7rem;
-  left: 10%;
+  top: 2rem;
   border-radius: .7rem 0 0 .7rem;
 }
 
@@ -72,7 +71,6 @@ $lightBlue: #6CADDF;
   background-color: transparent;
   border-right: white 3px dashed;
   height: 2rem;
-  // position: relative;
 }
 
 .progressStatus {
@@ -84,6 +82,7 @@ $lightBlue: #6CADDF;
   top: 2.2rem;
   right: 0;
   text-align: right;
+  max-width: 5rem;
 }
 
 // the star
@@ -125,12 +124,4 @@ $lightBlue: #6CADDF;
 
 .grow:hover {
   transform: scale(85%, 110%) translate(5px, -5px) skew(-5deg);
-}
-
-.gear1 {
-  left: 35%;
-}
-
-.gear2 {
-  left: 75%;
 }
