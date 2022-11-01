@@ -1,0 +1,136 @@
+$darkBlue: #091f31;
+$midBlue: #135181;
+$lightBlue: #6CADDF;
+
+.page {
+  min-height: 100%;
+}
+
+.container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightText {
+  color: white;
+}
+
+.wrap {
+  max-width: 900px;
+  width: 80%;
+}
+
+.lightBlue {
+  background-color: $lightBlue;
+}
+
+.backgroundMid {
+  background-color: $midBlue;
+}
+
+.backgroundDark {
+  background-color: $darkBlue;
+}
+
+
+// the gracker widget
+.trackerBody {
+  width: 100%;
+  background-color: $midBlue;
+  height: 200px;
+  position: relative;
+  padding: 0.5rem 1rem;
+}
+
+.progressWrap {
+  position: relative;
+  left: 10%;
+  width: 90%;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: black;
+  height: 1.4rem;
+  position: absolute;
+  top: 7rem;
+  left: 10%;
+  border-radius: .7rem 0 0 .7rem;
+}
+
+.progressBarBackground {
+  border: black 1px solid;
+}
+
+.progressBarProgress {
+  background-color: $lightBlue;
+}
+
+.progressTicker {
+  background-color: transparent;
+  border-right: white 3px dashed;
+  height: 2rem;
+  // position: relative;
+}
+
+.progressStatus {
+  width: 10%;
+}
+
+.progressTickerText {
+  position: absolute;
+  top: 2.2rem;
+  right: 0;
+  text-align: right;
+}
+
+// the star
+.four-point-star::after,
+.four-point-star::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "\2726";
+  font-size: 3.5rem;
+}
+
+.four-point-star::after {
+  /* The foreground star */
+  background: linear-gradient(135deg, white 30%, $lightBlue);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.four-point-star::before {
+  /* The star shadow */
+  color: transparent;
+  text-shadow: 1px 2px 3px rgb(183, 225, 228);
+}
+
+.four-point-star {
+  position: relative;
+  width: 3.5rem;
+  top: -2.5rem;
+  cursor: pointer;
+  transform: scale(70%, 100%);
+  z-index: 10;
+}
+
+.grow {
+  transition: all .2s ease-in-out;
+}
+
+.grow:hover {
+  transform: scale(85%, 110%) translate(5px, -5px) skew(-5deg);
+}
+
+.gear1 {
+  left: 35%;
+}
+
+.gear2 {
+  left: 75%;
+}
