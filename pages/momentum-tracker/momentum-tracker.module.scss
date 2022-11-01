@@ -13,6 +13,16 @@ $lightBlue: #6CADDF;
   align-items: center;
 }
 
+.row {
+  width: 100%;
+  flex-direction: row;
+}
+
+.column {
+  width: 100%;
+  flex-direction: column;
+}
+
 .lightText {
   color: white;
 }

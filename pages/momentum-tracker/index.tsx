@@ -1,8 +1,31 @@
 import React from 'react'
 import Image from 'next/image'
 import style from './momentum-tracker.module.scss'
+import { get } from '../../services/stats'
+// import { getCharges } from '../../services/stripe'
+
+// export async function getServerSideProper(context: any) {
+//   await get('leagues')
+//   return {
+//     props: {},
+//   }
+// }
 
 export default function MomentumTracker(props: any) {
+  const currentMomentum = 830
+  const goals = [
+    {
+      requirement: 15000,
+      title: 'LAN',
+      description: 'When Shift gets to 15,000 Momentum, we lock in a December LAN event.',
+    },
+    {
+      requirement: 25000,
+      title: 'Content',
+      description:
+        "When Shift gets to 25,000 Momentum, we will get a consistent Newsletter, Clips of the Week for EVERY league, a post-LAN montage, and will announce the Summer'23 LAN venue.",
+    },
+  ]
   return (
     <div className={`${style.container} ${style.backgroundDark} ${style.lightText}`}>
       <style global jsx>{`
@@ -15,20 +38,32 @@ export default function MomentumTracker(props: any) {
         }
       `}</style>
       <div className={`${style.container} ${style.wrap}`}>
-        <h1>MNCS Momentum Tracker</h1>
+        <h1>MNCS Shift Tracker</h1>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard
-          dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
-          specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged.
+          {
+            'MNCS Shift tracks the Momentum that we build as a community through MNCS Shift subscriptions. When we have more momentum, we bring new benfits back to the community. Each subscription brings in more momentum.'
+          }
         </p>
-        {Tracker(3000)}
+        <button>Subscribe now to add momentum</button>
+        {Tracker(currentMomentum, goals)}
+        <div className={style.row}>
+          <h2>MNCS Momentum</h2>
+          <p>We currently have {3000} of the 15,000 momentum needed for LAN.</p>
+        </div>
+        {goals.map((goal) => {
+          return (
+            <div className={style.row} key={`${goal.title} ${goal.requirement}`}>
+              <h3>{goal.title}</h3>
+              <p>{goal.description}</p>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
 
-function Tracker(currentMomentum: number) {
+function Tracker(currentMomentum: number, goals: any) {
   const maxMomentum = 30000
   const getBarPosition = (momentum: number) => {
     return (momentum / maxMomentum) * 100
@@ -50,8 +85,8 @@ function Tracker(currentMomentum: number) {
       <h3>MNCS Shift Progress</h3>
       <div className={style.progressWrap}>
         <div className={style.progressBar}>
-          <div className={`${style['four-point-star']} ${style.grow}`} style={marker1} title="Gear 1"></div>
-          <div className={`${style['four-point-star']} ${style.grow}`} style={marker2} title="Gear 2"></div>
+          <div className={`${style['four-point-star']} ${style.grow}`} style={marker1} title={goals[0].title}></div>
+          <div className={`${style['four-point-star']} ${style.grow}`} style={marker2} title={goals[1].title}></div>
         </div>
         <div className={`${style.progressBar} ${style.progressBarProgress}`} style={progressStatus}></div>
         <div className={`${style.progressBar} ${style.progressTicker}`} style={progressStatus}>
@@ -60,11 +95,19 @@ function Tracker(currentMomentum: number) {
         <div
           className={`${style.progressBar} ${style.progressTicker}`}
           style={{ width: toPercent(getBarPosition(marker1Goal)) }}
-        ></div>
+        >
+          <div className={`${style.progressTickerText}`}>
+            {marker1Goal} ({goals[0].title})
+          </div>
+        </div>
         <div
           className={`${style.progressBar} ${style.progressTicker}`}
           style={{ width: toPercent(getBarPosition(marker2Goal)) }}
-        ></div>
+        >
+          <div className={`${style.progressTickerText}`}>
+            {marker2Goal} ({goals[1].title})
+          </div>
+        </div>
       </div>
     </div>
   )
