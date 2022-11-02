@@ -93,16 +93,8 @@ function Tracker(currentMomentum: number, goals: Goal[]) {
     return (momentum / maxMomentum) * 100
   }
   const toPercent = (num: number) => `${num}%`
-  const marker1Goal = 15000
-  const marker2Goal = 25000
   const progressStatus = {
     width: toPercent(getBarPosition(currentMomentum)),
-  }
-  const marker1 = {
-    left: toPercent(getBarPosition(marker1Goal) - 3.2),
-  }
-  const marker2 = {
-    left: toPercent(getBarPosition(marker2Goal) - 3.2),
   }
   return (
     <div className={style.trackerBody}>
@@ -111,7 +103,7 @@ function Tracker(currentMomentum: number, goals: Goal[]) {
         <div className={style.progressBar}>
           {/* <div className={`${style['four-point-star']} ${style.grow}`} style={marker1} title={goals[0].title}></div>
           <div className={`${style['four-point-star']} ${style.grow}`} style={marker2} title={goals[1].title}></div> */}
-          {goals.map((goal) => {
+          {/* {goals.map((goal) => {
             return (
               <div
                 key={`${goal.title}`}
@@ -122,10 +114,16 @@ function Tracker(currentMomentum: number, goals: Goal[]) {
                 title={goal.title}
               ></div>
             )
-          })}
+          })} */}
         </div>
-        <div className={`${style.progressBar} ${style.progressBarProgress}`} style={progressStatus}></div>
-        <div className={`${style.progressBar} ${style.progressTicker}`} style={progressStatus}>
+        <div
+          className={`${style.progressBar} ${style.progressBarProgress}`}
+          style={{ width: toPercent(getBarPosition(currentMomentum)) }}
+        ></div>
+        <div
+          className={`${style.progressBar} ${style.progressTicker}`}
+          style={{ width: toPercent(getBarPosition(currentMomentum)) }}
+        >
           <div className={`${style.progressTickerText}`}>{currentMomentum} Momentum</div>
         </div>
         {goals.map((goal) => {
