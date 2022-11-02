@@ -34,6 +34,7 @@ export const getMomentum = async () => {
 
   const momentum = events.reduce((result, event) => {
     const obj: any = event.data.object
+    if (!obj.description.toLowerCase().includes('mncs')) return result
     const amount = obj.amount
     if (amount > 2500) {
       result += amount * 18
