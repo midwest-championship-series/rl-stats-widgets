@@ -43,14 +43,14 @@ export default function MomentumTracker(props: any) {
     },
   ]
   return (
-    <div className={`${style.page} ${style.container} ${style.backgroundDark} ${style.lightText}`}>
+    <div className={`${style.page} ${style.container} ${style.backgroundDark} ${style.white}`}>
       <style global jsx>{`
         html,
         body,
         body > div:first-child,
         div#__next,
         div#__next > div {
-          height: 100%;
+          height: fit-content;
         }
       `}</style>
       <div className={`${style.container} ${style.wrap}`}>

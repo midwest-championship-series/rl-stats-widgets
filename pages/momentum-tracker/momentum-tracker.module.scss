@@ -6,6 +6,12 @@ $lightBlue: #6CADDF;
   min-height: 100%;
   padding-bottom: 4rem;
   height: fit-content;
+  h1 {
+    font-size: 3rem;
+  }
+  p {
+    font-size: 1.5rem;
+  }
 }
 
 .container {
@@ -25,7 +31,7 @@ $lightBlue: #6CADDF;
   flex-direction: column;
 }
 
-.lightText {
+.white {
   color: white;
 }
 
@@ -51,9 +57,11 @@ $lightBlue: #6CADDF;
 .trackerBody {
   width: 100%;
   background-color: $midBlue;
-  height: 200px;
+  height: 13rem;
   position: relative;
   padding: 0.2rem 0 1rem 1rem;
+  border-radius: 1rem;
+  border: #fff 2px solid;
 }
 
 .progressWrap {
@@ -149,9 +157,8 @@ $lightBlue: #6CADDF;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
-  font-size: 100%;
-  height: 44px;
+  font-size: 2rem;
+  min-height: 3rem;
   line-height: 1.15;
   margin: 12px 0 0;
   outline: none;
@@ -160,12 +167,10 @@ $lightBlue: #6CADDF;
   position: relative;
   text-align: center;
   text-transform: none;
-  transform: translateZ(0);
-  transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  max-width: 9rem;
+  max-width: 14rem;
 }
 
 .mainButton:disabled {
