@@ -31,7 +31,7 @@ export default function MomentumTracker(props: any) {
       description: 'When Shift gets to 8,000 Momentum, we will make special roles for Shift subs',
     },
     {
-      requirement: 15000,
+      requirement: 4500,
       title: 'LAN',
       description: 'When Shift gets to 15,000 Momentum, we lock in a December LAN event.',
     },

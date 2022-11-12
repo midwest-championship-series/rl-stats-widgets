@@ -1,6 +1,11 @@
 import Stripe from 'stripe'
 
 const API_KEY = process.env.STRIPE_API_KEY || ''
+const OLD_API_KEY = process.env.OLD_STRIPE_API_KEY || ''
+
+const oldStripe = new Stripe(OLD_API_KEY, {
+  apiVersion: '2022-08-01',
+})
 
 const stripe = new Stripe(API_KEY, {
   apiVersion: '2022-08-01',
@@ -8,19 +13,17 @@ const stripe = new Stripe(API_KEY, {
 
 export const getCharges = async () => {
   const charges = await stripe.charges.list()
-  console.log(charges)
   return charges
 }
 
-const getLastMonthSuccessfulCharges = async () => {
-  const oneMonthAgo = new Date()
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
-  const createdOneMonthAgo = Math.round(oneMonthAgo.getTime() / 1000)
+const getSuccessfulCharges = async (stripe: Stripe, startingAt: Date) => {
+  const startingAtSeconds = Math.round(startingAt.getTime() / 1000)
   const events = []
   let moreEvents = false
   let lastEvent = null
   do {
-    const props: any = { type: 'charge.succeeded', created: { gt: createdOneMonthAgo } }
+    const props: any = { type: 'charge.succeeded', created: { gt: startingAtSeconds } }
+    console.log('props', props)
     const { data, has_more } = await stripe.events.list(props)
     moreEvents = has_more
     lastEvent = data.slice(-1)[0]
@@ -30,9 +33,12 @@ const getLastMonthSuccessfulCharges = async () => {
 }
 
 export const getMomentum = async () => {
-  const events = await getLastMonthSuccessfulCharges()
+  const oneMonthAgo = new Date()
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+  const events = await getSuccessfulCharges(stripe, new Date(1668272970127))
+  const oldEvents = await getSuccessfulCharges(oldStripe, oneMonthAgo)
 
-  const momentum = events.reduce((result, event) => {
+  const momentum = events.concat(oldEvents).reduce((result, event) => {
     const obj: any = event.data.object
     if (!obj.description.toLowerCase().includes('mncs')) return result
     const amount = obj.amount
@@ -44,7 +50,7 @@ export const getMomentum = async () => {
       result += amount * 15
     }
     return result
-  }, 0)
+  }, 1500)
   return Math.round(momentum / 100)
 }
 
