@@ -93,6 +93,11 @@ $lightBlue: #6CADDF;
   height: 2rem;
 }
 
+.liveProgressTicker {
+  top: 1.4rem;
+  border-right: gold 3px dashed;
+}
+
 .progressStatus {
   width: 10%;
 }
@@ -103,6 +108,11 @@ $lightBlue: #6CADDF;
   right: 0;
   text-align: right;
   max-width: 4rem;
+}
+
+.liveProgressTickerText {
+  top: -2.4rem;
+  color: gold;
 }
 
 // the star

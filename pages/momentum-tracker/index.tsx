@@ -121,10 +121,12 @@ function Tracker(currentMomentum: number, goals: Goal[]) {
           style={{ width: toPercent(getBarPosition(currentMomentum)) }}
         ></div>
         <div
-          className={`${style.progressBar} ${style.progressTicker}`}
+          className={`${style.progressBar} ${style.progressTicker} ${style.liveProgressTicker}`}
           style={{ width: toPercent(getBarPosition(currentMomentum)) }}
         >
-          <div className={`${style.progressTickerText}`}>{currentMomentum} Momentum</div>
+          <div className={`${style.progressTickerText} ${style.liveProgressTickerText}`}>
+            {currentMomentum} Momentum
+          </div>
         </div>
         {goals.map((goal) => {
           return (
