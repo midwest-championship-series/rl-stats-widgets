@@ -23,7 +23,9 @@ const getSuccessfulCharges = async (stripe: Stripe, startingAt: Date) => {
   let lastEvent = null
   do {
     const props: any = { type: 'charge.succeeded', created: { gt: startingAtSeconds } }
-    console.log('props', props)
+    if (lastEvent) {
+      props.starting_after = lastEvent.id
+    }
     const { data, has_more } = await stripe.events.list(props)
     moreEvents = has_more
     lastEvent = data.slice(-1)[0]
